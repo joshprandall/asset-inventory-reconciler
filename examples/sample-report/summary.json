@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-09-07",
+  "policy": {
+    "stale_days": 30,
+    "warranty_days": 60
+  },
+  "counts": {
+    "baseline_assets": 6,
+    "current_assets": 6,
+    "added_assets": 1,
+    "missing_assets": 1,
+    "changed_assets": 4,
+    "field_changes": 5,
+    "findings": 9
+  },
+  "changes": [
+    {
+      "asset_tag": "LT-101",
+      "kind": "changed",
+      "field": "site",
+      "before": "Field",
+      "after": "Office"
+    },
+    {
+      "asset_tag": "LT-101",
+      "kind": "changed",
+      "field": "last_seen",
+      "before": "2026-09-01",
+      "after": "2026-09-07"
+    },
+    {
+      "asset_tag": "LT-102",
+      "kind": "changed",
+      "field": "assigned_to",
+      "before": "Jordan Hale",
+      "after": ""
+    },
+    {
+      "asset_tag": "LT-103",
+      "kind": "missing",
+      "field": "",
+      "before": "Present in baseline",
+      "after": ""
+    },
+    {
+      "asset_tag": "LT-105",
+      "kind": "changed",
+      "field": "serial",
+      "before": "SN105",
+      "after": "SN999"
+    },
+    {
+      "asset_tag": "LT-106",
+      "kind": "changed",
+      "field": "status",
+      "before": "active",
+      "after": "retired"
+    },
+    {
+      "asset_tag": "LT-107",
+      "kind": "added",
+      "field": "",
+      "before": "",
+      "after": "Present in current export"
+    }
+  ],
+  "findings": [
+    {
+      "asset_tag": "LT-102",
+      "code": "MISSING_ASSIGNEE",
+      "detail": "Active asset has no recorded assignee."
+    },
+    {
+      "asset_tag": "LT-102",
+      "code": "WARRANTY_DUE",
+      "detail": "Recorded warranty ends within 60 days, including today."
+    },
+    {
+      "asset_tag": "LT-103",
+      "code": "MISSING_FROM_EXPORT",
+      "detail": "Absent from current export; confirm export scope before treating this as a lost device."
+    },
+    {
+      "asset_tag": "LT-104",
+      "code": "STALE_RECORD",
+      "detail": "Last seen more than 30 days before the planning date; verify collection coverage."
+    },
+    {
+      "asset_tag": "LT-104",
+      "code": "WARRANTY_EXPIRED",
+      "detail": "Recorded warranty end date is before the planning date."
+    },
+    {
+      "asset_tag": "LT-105",
+      "code": "IDENTITY_REVIEW",
+      "detail": "Serial changed under the same asset tag; validate identity before accepting other changes."
+    },
+    {
+      "asset_tag": "LT-106",
+      "code": "RETIRED_ASSIGNED",
+      "detail": "Retired asset still has an assignee; reconcile return or assignment records."
+    },
+    {
+      "asset_tag": "LT-107",
+      "code": "LAST_SEEN_UNKNOWN",
+      "detail": "No last-seen date recorded."
+    },
+    {
+      "asset_tag": "LT-107",
+      "code": "WARRANTY_UNKNOWN",
+      "detail": "Warranty end date is not recorded."
+    }
+  ],
+  "source_sha256": {
+    "baseline": "55df5bba61b313f271cfb4c3673613f8e13b9f51259a123da58cb510691a1ed4",
+    "current": "b293c7fcc7cb6d22540578c77a32dfa3cef5aa7c800f03498c9dc1f38e2d17ec"
+  }
+}

@@ -1,0 +1,7 @@
+asset_tag,serial,assigned_to,site,status,last_seen,warranty_end
+LT-101,SN101,Morgan Lee,Office,active,2026-09-07,2027-06-30
+LT-102,SN102,,Office,active,2026-09-01,2026-10-01
+LT-104,SN104,Casey Brooks,Office,active,2026-07-01,2026-08-31
+LT-105,SN999,,Office,spare,2026-09-01,2027-06-30
+LT-106,SN106,Jamie Park,Office,retired,2026-09-01,2027-06-30
+LT-107,SN107,,Field,spare,,

@@ -1,0 +1,8 @@
+asset_tag,kind,field,before,after
+LT-101,changed,site,Field,Office
+LT-101,changed,last_seen,2026-09-01,2026-09-07
+LT-102,changed,assigned_to,Jordan Hale,
+LT-103,missing,,Present in baseline,
+LT-105,changed,serial,SN105,SN999
+LT-106,changed,status,active,retired
+LT-107,added,,,Present in current export

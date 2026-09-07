@@ -1,0 +1,10 @@
+asset_tag,code,detail
+LT-102,MISSING_ASSIGNEE,Active asset has no recorded assignee.
+LT-102,WARRANTY_DUE,"Recorded warranty ends within 60 days, including today."
+LT-103,MISSING_FROM_EXPORT,Absent from current export; confirm export scope before treating this as a lost device.
+LT-104,STALE_RECORD,Last seen more than 30 days before the planning date; verify collection coverage.
+LT-104,WARRANTY_EXPIRED,Recorded warranty end date is before the planning date.
+LT-105,IDENTITY_REVIEW,Serial changed under the same asset tag; validate identity before accepting other changes.
+LT-106,RETIRED_ASSIGNED,Retired asset still has an assignee; reconcile return or assignment records.
+LT-107,LAST_SEEN_UNKNOWN,No last-seen date recorded.
+LT-107,WARRANTY_UNKNOWN,Warranty end date is not recorded.
