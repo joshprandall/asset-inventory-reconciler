@@ -39,6 +39,62 @@ class ReconciliationTests(unittest.TestCase):
         result = app.analyze(self.baseline, self.current, AS_OF)
         self.assertEqual(result['counts'], dict(baseline_assets=6, current_assets=6, added_assets=1, missing_assets=1, changed_assets=4, field_changes=5, findings=9))
 
+    def test_findings_include_current_assignment_and_site(self):
+        before = self.single(assigned_to='Previous owner', site='Old office')
+        after = self.single(assigned_to='Current owner', site='New office', warranty_end='2026-09-07')
+        finding = app.analyze(before, after, AS_OF)['findings'][0]
+        self.assertEqual(finding['context_source'], 'current')
+        self.assertEqual(finding['serial'], after['LT-101']['serial'])
+        self.assertEqual(finding['assigned_to'], 'Current owner')
+        self.assertEqual(finding['site'], 'New office')
+
+    def test_missing_findings_keep_explicit_baseline_context(self):
+        baseline = self.single(assigned_to='Last recorded owner', site='Last recorded site')
+        finding = app.analyze(baseline, {}, AS_OF)['findings'][0]
+        self.assertEqual(finding['code'], 'MISSING_FROM_EXPORT')
+        self.assertEqual(finding['context_source'], 'baseline')
+        self.assertEqual(finding['assigned_to'], 'Last recorded owner')
+        self.assertEqual(finding['site'], 'Last recorded site')
+        self.assertEqual(finding['serial'], baseline['LT-101']['serial'])
+
+    def test_empty_current_assignee_is_not_replaced_by_previous_owner(self):
+        report = app.analyze(self.single(assigned_to='Previous owner'), self.single(assigned_to=''), AS_OF)
+        finding = next(f for f in report['findings'] if f['code'] == 'MISSING_ASSIGNEE')
+        self.assertEqual(finding['assigned_to'], '')
+        self.assertEqual(finding['context_source'], 'current')
+
+    def test_unchanged_assets_have_searchable_context_in_findings(self):
+        records = self.single(assigned_to='Review owner', site='Albany lab', warranty_end='2026-09-07')
+        report = app.analyze(records, records, AS_OF)
+        self.assertEqual(report['changes'], [])
+        markup = app.render_html(report)
+        self.assertIn('Review owner', markup)
+        self.assertIn('Albany lab', markup)
+        self.assertIn('Current snapshot', markup)
+
+    def test_finding_context_is_escaped_and_baseline_is_labeled(self):
+        records = self.single(assigned_to='<img src=x onerror=alert(1)>', site='R&D <west>')
+        markup = app.render_html(app.analyze(records, {}, AS_OF))
+        self.assertNotIn('<img src=x onerror=alert(1)>', markup)
+        self.assertIn('&lt;img src=x onerror=alert(1)&gt;', markup)
+        self.assertIn('R&amp;D &lt;west&gt;', markup)
+        self.assertIn('Baseline snapshot', markup)
+
+    def test_finding_context_exports_preserve_json_and_protect_csv(self):
+        records = self.single(assigned_to='=2+2', site='+Office', serial='@SERIAL')
+        report = app.analyze(records, {}, AS_OF)
+        output = self.folder / 'context-report'
+        app.write_reports(report, output)
+        saved = json.loads((output / 'summary.json').read_text(encoding='utf-8'))
+        self.assertEqual(saved['schema_version'], 2)
+        self.assertEqual(saved['findings'][0]['assigned_to'], '=2+2')
+        with (output / 'findings.csv').open(encoding='utf-8', newline='') as stream:
+            rows = list(csv.DictReader(stream))
+        self.assertEqual(rows[0]['context_source'], 'baseline')
+        self.assertEqual(rows[0]['assigned_to'], "'=2+2")
+        self.assertEqual(rows[0]['site'], "'+Office")
+        self.assertEqual(rows[0]['serial'], "'@SERIAL")
+
     def test_input_not_mutated(self):
         before = copy.deepcopy(self.current)
         app.analyze(self.baseline, self.current, AS_OF)

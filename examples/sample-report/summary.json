@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "as_of": "2026-09-07",
   "policy": {
     "stale_days": 30,
@@ -69,47 +69,83 @@
     {
       "asset_tag": "LT-102",
       "code": "MISSING_ASSIGNEE",
-      "detail": "Active asset has no recorded assignee."
+      "detail": "Active asset has no recorded assignee.",
+      "context_source": "current",
+      "serial": "SN102",
+      "assigned_to": "",
+      "site": "Office"
     },
     {
       "asset_tag": "LT-102",
       "code": "WARRANTY_DUE",
-      "detail": "Recorded warranty ends within 60 days, including today."
+      "detail": "Recorded warranty ends within 60 days, including today.",
+      "context_source": "current",
+      "serial": "SN102",
+      "assigned_to": "",
+      "site": "Office"
     },
     {
       "asset_tag": "LT-103",
       "code": "MISSING_FROM_EXPORT",
-      "detail": "Absent from current export; confirm export scope before treating this as a lost device."
+      "detail": "Absent from current export; confirm export scope before treating this as a lost device.",
+      "context_source": "baseline",
+      "serial": "SN103",
+      "assigned_to": "Alex Rivera",
+      "site": "Field"
     },
     {
       "asset_tag": "LT-104",
       "code": "STALE_RECORD",
-      "detail": "Last seen more than 30 days before the planning date; verify collection coverage."
+      "detail": "Last seen more than 30 days before the planning date; verify collection coverage.",
+      "context_source": "current",
+      "serial": "SN104",
+      "assigned_to": "Casey Brooks",
+      "site": "Office"
     },
     {
       "asset_tag": "LT-104",
       "code": "WARRANTY_EXPIRED",
-      "detail": "Recorded warranty end date is before the planning date."
+      "detail": "Recorded warranty end date is before the planning date.",
+      "context_source": "current",
+      "serial": "SN104",
+      "assigned_to": "Casey Brooks",
+      "site": "Office"
     },
     {
       "asset_tag": "LT-105",
       "code": "IDENTITY_REVIEW",
-      "detail": "Serial changed under the same asset tag; validate identity before accepting other changes."
+      "detail": "Serial changed under the same asset tag; validate identity before accepting other changes.",
+      "context_source": "current",
+      "serial": "SN999",
+      "assigned_to": "",
+      "site": "Office"
     },
     {
       "asset_tag": "LT-106",
       "code": "RETIRED_ASSIGNED",
-      "detail": "Retired asset still has an assignee; reconcile return or assignment records."
+      "detail": "Retired asset still has an assignee; reconcile return or assignment records.",
+      "context_source": "current",
+      "serial": "SN106",
+      "assigned_to": "Jamie Park",
+      "site": "Office"
     },
     {
       "asset_tag": "LT-107",
       "code": "LAST_SEEN_UNKNOWN",
-      "detail": "No last-seen date recorded."
+      "detail": "No last-seen date recorded.",
+      "context_source": "current",
+      "serial": "SN107",
+      "assigned_to": "",
+      "site": "Field"
     },
     {
       "asset_tag": "LT-107",
       "code": "WARRANTY_UNKNOWN",
-      "detail": "Warranty end date is not recorded."
+      "detail": "Warranty end date is not recorded.",
+      "context_source": "current",
+      "serial": "SN107",
+      "assigned_to": "",
+      "site": "Field"
     }
   ],
   "source_sha256": {

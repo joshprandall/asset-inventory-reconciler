@@ -6,7 +6,7 @@ Compare two CSV inventory snapshots and produce a searchable HTML dashboard, mac
 
 ## See it first
 
-Download the repository, then open `examples/sample-report/report.html` in a browser. Search filters both report tables. Reset restores all rows. Print / save PDF clears the filter to print the complete report. The HTML is self-contained and makes no network requests.
+Download the repository, then open `examples/sample-report/report.html` in a browser. Each finding includes its recorded assignee, site, and serial, with the source snapshot clearly labeled. Search filters both report tables, including this context for assets whose fields did not change. Reset restores all rows. Print / save PDF clears the filter to print the complete report. The HTML is self-contained and makes no network requests.
 
 ## Run it
 
@@ -72,7 +72,11 @@ All dates are calendar dates, not timestamps. Policies are review settings, not 
 - `report.html`: searchable dashboard with reset and print buttons; responsive summary cards and horizontally scrollable tables.
 - `summary.json`: structured counts, changes, findings, policy, and SHA-256 hashes of original input bytes.
 - `changes.csv`: one row per changed field or added/missing asset.
-- `findings.csv`: one row per review finding.
+- `findings.csv`: one row per review finding, including source snapshot, serial, assignee, and site for follow-up.
+
+Finding context comes from the current snapshot when the asset is present. For a missing asset, it comes from the baseline and is explicitly labeled `baseline`; this is last recorded information, not a claim about the asset's current assignment or location. Empty current assignees remain empty in JSON/CSV and appear as “Unassigned” in the dashboard.
+
+The report uses `schema_version: 2`. JSON findings add `context_source`, `serial`, `assigned_to`, and `site`; `findings.csv` appends those four columns after the existing `asset_tag,code,detail` columns. Consumers that enforce version 1 or a fixed column count must accept this updated schema. Reconciliation policies, counts, change records, input columns, and CLI exit codes are unchanged.
 
 The CLI can be invoked by an existing job scheduler after exports arrive. Supply the planning date explicitly and use a unique output folder for each run. Handle exit 1 as “review required,” not a runtime failure. Scheduling and inventory collection are not installed by this project. Baselines are never automatically overwritten.
 
@@ -80,7 +84,7 @@ The CLI can be invoked by an existing job scheduler after exports arrive. Supply
 
 Validation precedes report creation. Output directories cannot be overwritten. Report text is HTML-escaped, and exported CSV cells with spreadsheet formula prefixes are prefixed with an apostrophe. JSON preserves values. Results are sorted by normalized asset tag for reproducibility; SHA-256 fingerprints provide byte-level input traceability, not signatures or proof of authenticity.
 
-The 25-test suite covers policy boundaries, input rejection, unchanged source data, determinism, HTML escaping, spreadsheet formula handling, report output, and CLI exit behavior. Local tests passed; the included GitHub workflow tests Python 3.10 and 3.13 on Ubuntu and Windows after upload. Browser interactions have not been verified by an automated browser test.
+The 31-test suite covers policy boundaries, input rejection, unchanged source data, determinism, HTML escaping, spreadsheet formula handling, report output, and CLI exit behavior. It also verifies current versus baseline finding context, unassigned assets, searchable unchanged-asset context, and safe context exports. Local tests passed; the included GitHub workflow tests Python 3.10 and 3.13 on Ubuntu and Windows after upload. Browser interactions have not been verified by an automated browser test.
 
 ## Interpret with care
 
